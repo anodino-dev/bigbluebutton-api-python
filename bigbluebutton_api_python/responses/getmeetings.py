@@ -1,3 +1,4 @@
+from typing import Iterable
 from .base import BaseResponse
 from ..core.meeting import Meeting
 
@@ -11,6 +12,9 @@ class GetMeetingsResponse(BaseResponse):
         except KeyError:
             pass
 
-        for meetingXml in self.get_field("meetings")["meeting"]:
+        meetingsXml = self.get_field("meetings")["meeting"]
+        if not isinstance(meetingsXml, Iterable):
+            meetingsXml = [meetingsXml]
+        for meetingXml in meetingsXml:
             meetings.append(Meeting(meetingXml))
         return meetings
