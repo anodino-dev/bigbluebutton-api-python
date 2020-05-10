@@ -14,7 +14,7 @@ class BBBModule:
     def add_slide(self, type, value, name = None):
         if type == self.URL:
             self.__urls.append(value)
-        elif type == self.files:
+        elif type == self.FILE:
             self.__files.append(value)
         elif type == self.base64s:
             self.__base64s.append([name, value])
@@ -42,8 +42,8 @@ class BBBModule:
         for single_file in self.__files:
             if os.path.exists(single_file):
                 xml += "<document name=\"" + os.path.basename(single_file) + "\">"
-                with open(single_file, 'r') as f:
-                    xml += base64.encodestring(f.read())
+                with open(single_file, 'rb',) as f:
+                    xml += base64.encodebytes(f.read()).decode()
                 xml += "</document>"
-
+        xml += "</module>"
         return xml

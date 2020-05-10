@@ -134,7 +134,11 @@ class BigBlueButton:
         if data is None:
             response = urlopen(url).read()
         else:
-            response = urlopen(url, data=urlencode(data).encode()).read()
+            if isinstance(data, str):
+                data_str = data
+            else:
+                data_str = urlencode(data)
+            response = urlopen(url, data=data_str.encode()).read()
 
         try:
             rawXml = parse(response)["response"]
