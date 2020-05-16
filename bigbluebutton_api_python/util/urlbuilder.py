@@ -1,5 +1,6 @@
 
 from hashlib import sha1
+from urllib import request
 from re import match
 
 class UrlBuilder:
@@ -22,7 +23,7 @@ class UrlBuilder:
                 value = "true" if value else "false"
             else:
                 value = str(value)
-            url += key + "=" + value + "&"
+            url += key + "=" + request.quote(value.encode('utf-8')) + "&"
 
         url += "checksum=" + self.__get_checksum(api_call, params)
         return url
@@ -34,8 +35,9 @@ class UrlBuilder:
                 value = "true" if value else "false"
             else:
                 value = str(value)
-            secret_str += key + "=" + value + "&"
+            secret_str += key + "=" + request.quote(value.encode('utf-8')) + "&"
         if secret_str.endswith("&"):
             secret_str = secret_str[:-1]
         secret_str += self.securitySalt
+        request.quote(secret_str, 'utf-8')
         return sha1(secret_str.encode('utf-8')).hexdigest()
