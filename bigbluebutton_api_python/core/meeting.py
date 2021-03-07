@@ -64,3 +64,6 @@ class Meeting(object):
 
     def has_been_forcibly_ended(self):
         return self.__hasBeenForciblyEnded
+    
+    def get_meta(self,name):
+        return self.__meta.get_meta(name)
