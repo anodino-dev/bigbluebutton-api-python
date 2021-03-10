@@ -70,7 +70,7 @@ class BigBlueButton:
 
     def get_meetings(self):
         response = self.__send_api_request(ApiMethod.GET_MEETINGS)
-        return GetMeetingsResponse(response)
+        return GetMeetingsResponse(response).get_meetings()
 
     def get_recordings(self, meeting_id="", recording_id="", states=None, meta=None):
         if states:
